@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import DataTable from 'react-data-table-component'
 import { useNavigate } from 'react-router-dom'
+import { Button } from 'react-bootstrap'
 // import { useParams } from 'react-router'
 
 const ProductList = () => {
@@ -78,7 +79,6 @@ const ProductList = () => {
     ];
 
     const handleRowClicked = row => {
-        console.log(row.productId)
         if (row.productId) {
             navigate('product/' + row.productId)
         }
@@ -98,44 +98,27 @@ const ProductList = () => {
 
     return (
         <>
-            <div className='container'>
-                <DataTable
-                    title="Product List"
-                    columns={columns}
-                    data={productList}
-                    defaultSortField="productName"
-                    pagination
-                    onRowClicked={handleRowClicked}
-                    conditionalRowStyles={conditionalRowStyles}
-                />
+            <div
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    height: '100vh',
+                }}
+            >
+                <div className='container'>
+                    <DataTable
+                        title="Product List"
+                        columns={columns}
+                        data={productList}
+                        defaultSortField="productName"
+                        pagination
+                        onRowClicked={handleRowClicked}
+                        conditionalRowStyles={conditionalRowStyles}
+                    />
+                    {!isLoading && <Button variant="primary" onClick={() => navigate('/product/create')}>Add</Button>}
+                </div>
             </div>
-            {/* <div className="container">
-                {isLoading}
-                {(productList.length > 0) &&
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>S/N</th>
-                                <th>Product Id</th>
-                                <th>Product Name</th>
-                                <th>Qty</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {!isLoading && productList.map((product, idx) => (
-                                <tr key={product.productId}>
-                                    <td>{idx + 1}</td>
-                                    <td>{product.productId}</td>
-                                    <td>{product.productName}</td>
-                                    <td>{product.qty}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                }
-                {!status.error && !isLoading && productList.length === 0 && <div>No product found.</div>}
-                {status.error && <div style={{ color: 'red' }}>{status.errorMessage}</div>}
-            </div> */}
         </>
     )
 }
